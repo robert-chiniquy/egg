@@ -24,6 +24,8 @@ fn simplify(s: &str) -> String {
     // parse the expression, the type annotation tells it which Language to use
     let expr: RecExpr<SimpleLanguage> = s.parse().unwrap();
 
+    // println!("🌵 {expr:?}");
+
     // simplify the expression using a Runner, which creates an e-graph with
     // the given expression and runs the given rules over it
     let runner = Runner::default().with_expr(&expr).run(&make_rules());

@@ -73,8 +73,29 @@ macro_rules! rule {
     };
 }
 
+#[allow(dead_code)]
+fn double_neg() -> Rewrite {
+    {
+        let searcher = "(~ (~ ?a))".parse::<crate::Pattern<_>>().unwrap();
+        let core_applier = "?a".parse::<crate::Pattern<_>>().unwrap();
+        let applier = core_applier;
+
+        crate::Rewrite::new(("double_neg").to_string(), searcher, applier).unwrap()
+    }
+}
+#[allow(dead_code)]
+fn double_neg_flip() -> Rewrite {
+    {
+        let searcher = "?a".parse::<crate::Pattern<_>>().unwrap();
+        let core_applier = "(~ (~ ?a))".parse::<crate::Pattern<_>>().unwrap();
+        let applier = core_applier;
+        println!("🦑\n{:?}\n\n{:?}\n", searcher, applier);
+        crate::Rewrite::new(("double_neg_flip").to_string(), searcher, applier).unwrap()
+    }
+}
+
 rule! {def_imply, def_imply_flip,   "(-> ?a ?b)",       "(| (~ ?a) ?b)"          }
-rule! {double_neg, double_neg_flip,  "(~ (~ ?a))",       "?a"                     }
+// rule! {double_neg, double_neg_flip,  "(~ (~ ?a))",       "?a"                     }
 rule! {assoc_or,    "(| ?a (| ?b ?c))", "(| (| ?a ?b) ?c)"       }
 rule! {dist_and_or, "(& ?a (| ?b ?c))", "(| (& ?a ?b) (& ?a ?c))"}
 rule! {dist_or_and, "(| ?a (& ?b ?c))", "(& (| ?a ?b) (| ?a ?c))"}
